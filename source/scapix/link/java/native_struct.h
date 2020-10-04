@@ -33,12 +33,12 @@ struct convert<Jni, Struct, std::void_t<typename native_struct<Struct>::fields>>
 
 	static ref<class_name> jni(const Struct& value)
 	{
-		auto obj = object<class_name>::new_object<void()>();
+		auto obj = object<class_name>::template new_object<void()>();
 
 		meta::for_each<fields>([&](auto f)
 		{
 			using field = decltype(f);
-			obj->set_field<field::name, field::type>(convert_jni<field::type>(value.*field::ptr));
+			obj->template set_field<typename field::name, typename field::type>(convert_jni<typename field::type>(value.*field::ptr));
 		});
 
 		return obj;
@@ -51,7 +51,7 @@ struct convert<Jni, Struct, std::void_t<typename native_struct<Struct>::fields>>
 		meta::for_each<fields>([&](auto f)
 		{
 			using field = decltype(f);
-			obj.*field::ptr = convert_cpp<decltype(obj.*field::ptr)>(value->get_field<field::name, field::type>());
+			obj.*field::ptr = convert_cpp<decltype(obj.*field::ptr)>(value->template get_field<typename field::name, typename field::type>());
 		});
 
 		return obj;
