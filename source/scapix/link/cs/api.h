@@ -91,6 +91,12 @@ struct param<T, std::enable_if_t<std::is_enum_v<T>>>
 	}
 };
 
+//template <typename T>
+//struct param<T, std::void_t<typename native_struct<T>::fields>>
+//{
+//	using type = meta::transform<param_t, typename native_struct<T>::fields::tuple_type>;
+//};
+
 template <typename T>
 using param_t = typename param<remove_cvref_t<T>>::type;
 

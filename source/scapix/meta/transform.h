@@ -10,19 +10,19 @@
 namespace scapix::meta {
 namespace detail {
 
-template <template <class> class F, class L>
+template <template <class> class F, class List>
 struct transform_impl;
 
-template <template <class> class F, template <class...> class L, class... T>
-struct transform_impl<F, L<T...>>
+template <template <class> class F, template <class...> class List, class... T>
+struct transform_impl<F, List<T...>>
 {
-    using type = L<F<T>...>;
+    using type = List<F<T>...>;
 };
 
 } // namespace detail
 
-template <template <class> class F, class L>
-using transform = typename detail::transform_impl<F, L>::type;
+template <template <class> class F, class List>
+using transform = typename detail::transform_impl<F, List>::type;
 
 } // namespace scapix::meta
 
